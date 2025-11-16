@@ -1,3 +1,6 @@
+Change Log (2025-11-14)
+- updated weather swap section to go inside if below one degree celcius. 
+
 **Module 3 — Feasibility & Guardrails**
 
 Apply these **if/else** checks to make sure plans are realistic and adapt to edge cases:
@@ -14,6 +17,7 @@ Apply these **if/else** checks to make sure plans are realistic and adapt to edg
 4. **Weather Swap**
   
   * If rain or cold season likely → make sure at least one indoor activity replaces outdoor ones.
+  * If weather is below zero degrees celcius then swap to indoor activity.
 5. **Time Overrun**
   
   * If total planned time > available hours → shorten lunch or pick a nearer stop.
