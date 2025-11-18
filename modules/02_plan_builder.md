@@ -1,7 +1,75 @@
-**Module 2 — Plan Builder (Options → Days)**
+* Module 02 — Plan Builder (Options → Days)** 
+Purpose
+Transform the candidate Options (activities, restaurants, events) into structured Days that respect traveler inputs, constraints, and realistic pacing.
 
-Create a short list of candidate activities (e.g., museums, landmarks, restaurants, parks) with the inputs of trip_budget and date_range. Each activity includes type, estimated duration, cost range, and distance. Between each activity, calculate travel time and add a 10% time buffer in case of delays. Schedule activities so that travel time is 30 minutes or less. Also, budget time for the following meals: Breakfast in the morning, Lunch in the middle of the day, and Dinner at the end of the day. If an activity is unavailable, provide another option. For each day, calculate day_budget and add up the total trip budget. If the total budget is greater than the input trip_budget, revise the activities so they are cheaper until the total budget is less than the input trip_budget. Estimate the time for each activity, and ensure the daily total time for activities is less than or equal to 6 hours.
+Inputs
+Dates: trip start/end, daily time windows (default 09:00–21:00).
 
-Use a simple loop to build days:
+Location: city/region, lodging coordinates or neighborhood.
 
-for each day:   pick Morning activity (near lodging)    pick Midday activity (after lunch)    pick Afternoon activity (different theme than previous activities)    pick Evening restaurant or optional event
+Budget: per-day and total trip target; strict or flexible mode.
+
+Traveler preferences: themes (culture, food, nature), pace, dietary needs, accessibility, family/solo.
+
+Transport mode: walk, public transit, car, ride-share.
+
+Options list (from Module 01): activities with attributes (name, type, location, duration, cost range, opening hours, weather sensitivity, booking requirements, tags).
+
+Day-Building Logic
+For each day:
+
+Morning (09:00–12:00)
+
+Pick activity near lodging.
+
+Must fit opening hours and allow 15–30 min buffer for transit.
+
+Midday (12:00–15:00)
+
+Include lunch (restaurant or food market) respecting dietary preferences and budget.
+
+Optional short activity nearby; transit ≤25 min.
+
+Afternoon (15:00–18:00)
+
+Select activity with a different theme than earlier slots.
+
+Must fit remaining time and opening hours.
+
+Evening (18:00–21:00)
+
+Restaurant aligned with budget and dietary needs.
+
+Optional event if booking feasible and weather suitable.
+
+Constraints enforced:
+
+Buffers: 15–30 min between activities; 60 min for meals.
+
+Travel guardrails: transit capped per hop (≤30 min walking equivalent).
+
+Budget guardrails: daily total must stay within target (±10% if flexible).
+
+Max 3–4 activities per day to avoid overpacking.
+
+Robustness / Replacement Strategy
+Weather fallback: swap outdoor activities for indoor/mixed options.
+
+Missing data: if cost or hours unknown, prefer alternatives with known data; otherwise mark tentative.
+
+Budget stress: replace with free/low-cost options or shorten paid durations.
+
+Accessibility/family mode: filter out unsuitable activities (long walks, late-night events).
+
+Unavailable activity: suggest alternative nearby or mark slot as “free time.”
+
+Outputs
+Each Day Plan includes:
+
+Ordered list of activities with: name, type, start/end time, location, travel details, duration, cost estimate, notes (weather, booking, accessibility).
+
+Daily summary: total estimated cost vs. budget, total travel time, themes covered, contingency notes.
+
+Flags: tentative items, bookings required, budget deviations.
+
+
